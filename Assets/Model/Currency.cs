@@ -4,16 +4,29 @@ using UnityEngine;
 
 public class Currency : MonoBehaviour {
 
-    public string CurrencyName { get; set; }
+    public string CurrencyCode { get; set; }
     public CurrencyConversionRate Rates { get; set; }
 
-    public Currency(string name)
+    public Currency(string code)
     {
-
+        CurrencyCode = code;
+        Rates = new CurrencyConversionRate();
     }
 
-	// Use this for initialization
-	void Start () {
+    public double GetConversionRateFrom(string targetCurrencyCode)
+    {
+        return Rates.GetConversionFrom(this.CurrencyCode, targetCurrencyCode);
+    }
+
+    public decimal GetConversionFrom(string targetCurrencyCode, decimal price)
+    {
+        return  price * (decimal) Rates.GetConversionFrom(this.CurrencyCode, targetCurrencyCode);
+    }
+
+
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	

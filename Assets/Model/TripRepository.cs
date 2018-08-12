@@ -15,9 +15,9 @@ public class TripRepository : MonoBehaviour
         Trips = new Dictionary<int, Trip>();
     }
 
-    public void AddPerson(string name)
+    public void AddTrip(string name, Currency defaultCurrency)
     {
-        Trip trip = new Trip(name, IdCount);
+        Trip trip = new Trip(name, IdCount, defaultCurrency);
         IdCount++;
         Trips.Add(trip.Id, trip);
     }

@@ -5,18 +5,19 @@ using UnityEngine;
 public class ItemToPay : MonoBehaviour {
 
     public string ItemName { get; set; }
-    public int Price { get; set; }
+    public decimal PriceInUSD { get; set; }
     public Expense OriginalExpense { get; set; }
     public Person WhoPaid { get; set; }
     public Person WhoConsumedItem { get; set; }
 
-    public ItemToPay(string name, int price, Person whoPaid, Person whoConsumedItem)
+    public ItemToPay(string name, decimal price, Person whoPaid, Person whoConsumedItem, Currency currency)
     {
         ItemName = name;
-        Price = price;
 
-        whoPaid.UpdateOwesPerson(whoConsumedItem, -price);
-        whoConsumedItem.UpdateOwesPerson(whoPaid, price);
+        PriceInUSD = currency.GetConversionFrom("USD", price);
+
+        whoPaid.UpdateOwesPerson(whoConsumedItem, -PriceInUSD);
+        whoConsumedItem.UpdateOwesPerson(whoPaid, PriceInUSD);
 
         WhoPaid = whoPaid;
         WhoConsumedItem = whoConsumedItem;

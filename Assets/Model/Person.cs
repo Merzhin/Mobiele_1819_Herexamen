@@ -8,7 +8,7 @@ public class Person : MonoBehaviour {
     public int Id { get; set; }
     public string PersonName { get; set; }
     //Negative value == Person owes you
-    public Dictionary<int, int> OwesPerson { get; set; }
+    public Dictionary<int, decimal> OwesPerson { get; set; }
     public List<int> Trips { get; set; }
     public List<Transaction> Transactions { get; set; }
 
@@ -17,7 +17,7 @@ public class Person : MonoBehaviour {
     public Person(string Name, int id)
     {
         Id = id;
-        OwesPerson = new Dictionary<int, int>();
+        OwesPerson = new Dictionary<int, decimal>();
         Trips = new List<int>();
         Transactions = new List<Transaction>();
     }
@@ -27,7 +27,7 @@ public class Person : MonoBehaviour {
         Trips.Add(trip.Id);
     }
 
-    public void UpdateOwesPerson(Person otherParty, int amount)
+    public void UpdateOwesPerson(Person otherParty, decimal amount)
     {
         if (otherParty.Id == this.Id)
         {
@@ -40,10 +40,21 @@ public class Person : MonoBehaviour {
         }
     }
 
-    public void AddTransaction(Person paidTo, int amount)
+    public void AddTransaction(Person paidTo, decimal amount)
     {
         Transaction transaction = new Transaction(this, paidTo, amount);
         Transactions.Add(transaction);
+    }
+
+    public Dictionary<int, decimal> GetOwesPersonInCurrency(Currency currency)
+    {
+        Dictionary<int, decimal> newOwesPerson = new Dictionary<int, decimal>();
+        foreach (KeyValuePair<int, decimal> entry in OwesPerson)
+        {
+            decimal newAmount = currency.GetConversionFrom("USD", entry.Value);
+            newOwesPerson.Add(entry.Key, newAmount);
+        }
+        return newOwesPerson;
     }
 
 

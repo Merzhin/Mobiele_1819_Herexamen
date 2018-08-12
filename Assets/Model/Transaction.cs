@@ -6,9 +6,9 @@ public class Transaction : MonoBehaviour {
 
     public int Payer { get; set; }
     public int Payee { get; set; }
-    public double Amount { get; set; }
+    public decimal Amount { get; set; }
 
-    public Transaction(Person payer, Person payee, int amount)
+    public Transaction(Person payer, Person payee, decimal amount)
     {
         payer.UpdateOwesPerson(payee, -amount); 
         payee.UpdateOwesPerson(payer, amount);
